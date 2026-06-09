@@ -1,0 +1,467 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-display: "Space Grotesk", sans-serif;
+  
+  --color-brand-50: #f4f6fa;
+  --color-brand-100: #e8ecf5;
+  --color-brand-500: #3b82f6;
+  --color-brand-600: #2563eb;
+  
+  --animate-fade-in: fade-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-grid-pulse: grid-pulse 8s ease-in-out infinite alternate;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes grid-pulse {
+  0% {
+    opacity: 0.25;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+/* Custom scrollbar and ambient styles */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0b0f19;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1f293d;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3b82f6;
+}
+
+:root {
+  --grid-color: #1e293b;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #0b0f19;
+  color: #f3f4f6;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.glow-container {
+  position: relative;
+}
+
+.glow-container::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 130%;
+  height: 130%;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.1), transparent 60%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Light Mode Transformation CSS variables & rule mappings */
+.light-theme {
+  --grid-color: #cbd5e1;
+}
+
+.light-theme body, .light-theme {
+  background-color: #f8fafc !important;
+  color: #1e293b !important;
+}
+
+/* Base sections background overrides */
+.light-theme .bg-slate-950 {
+  background-color: #f8fafc !important;
+}
+.light-theme .bg-slate-950\/70 {
+  background-color: rgba(241, 245, 249, 0.8) !important;
+}
+.light-theme .bg-slate-900\/30,
+.light-theme .bg-slate-900\/40,
+.light-theme .bg-slate-900\/35,
+.light-theme .bg-slate-900\/65,
+.light-theme .bg-slate-900\/60,
+.light-theme .bg-slate-900\/50,
+.light-theme .bg-slate-950\/30,
+.light-theme .bg-slate-950\/60,
+.light-theme .bg-slate-950\/90,
+.light-theme .bg-slate-950\/50,
+.light-theme .bg-slate-950\/80 {
+  background-color: #ffffff !important;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.03), 0 2px 4px -2px rgb(0 0 0 / 0.03) !important;
+}
+
+.light-theme .bg-slate-900 {
+  background-color: #f1f5f9 !important;
+}
+
+.light-theme .bg-slate-950\/90.md\:hidden {
+  background-color: rgba(255, 255, 255, 0.98) !important;
+}
+
+.light-theme .bg-slate-900.border-l.border-slate-800 {
+  background-color: #ffffff !important;
+}
+
+/* Sticky header backgrounds */
+.light-theme header.bg-slate-950\/80 {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+  border-bottom-color: #e2e8f0 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.light-theme header .text-white {
+  color: #1e293b !important;
+}
+
+/* Borders */
+.light-theme .border-slate-800,
+.light-theme .border-slate-805,
+.light-theme .border-slate-850,
+.light-theme .border-slate-900,
+.light-theme .border-slate-905,
+.light-theme .border-slate-800\/80,
+.light-theme .border-slate-800\/60 {
+  border-color: #e2e8f0 !important;
+}
+
+.light-theme .border-b,
+.light-theme .border-t,
+.light-theme .border-y,
+.light-theme .border-r,
+.light-theme .border-l {
+  border-color: #e2e8f0 !important;
+}
+
+/* Text elements */
+.light-theme .text-white {
+  color: #0f172a !important;
+}
+.light-theme .text-gray-100 {
+  color: #1e293b !important;
+}
+.light-theme .text-gray-200,
+.light-theme .text-gray-250,
+.light-theme .text-gray-300 {
+  color: #334155 !important;
+}
+.light-theme .text-gray-400,
+.light-theme .text-gray-455,
+.light-theme .text-gray-450,
+.light-theme .text-slate-400 {
+  color: #64748b !important;
+}
+.light-theme .text-zinc-300,
+.light-theme .text-zinc-400 {
+  color: #475569 !important;
+}
+.light-theme .text-zinc-500,
+.light-theme .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+/* Custom interactive boxes or simulations */
+.light-theme .bg-brand-500\/10 {
+  background-color: rgba(59, 130, 246, 0.08) !important;
+}
+
+.light-theme .bg-slate-950 {
+  background-color: #f8fafc !important;
+}
+
+.light-theme .bg-slate-950\/60 {
+  background-color: #f1f5f9 !important;
+}
+
+.light-theme .text-brand-400 {
+  color: #2563eb !important;
+}
+
+.light-theme .text-brand-450,
+.light-theme .text-brand-500 {
+  color: #1d4ed8 !important;
+}
+
+/* Hover & states */
+.light-theme .hover\:border-slate-705:hover,
+.light-theme .hover\:border-slate-700:hover,
+.light-theme .hover\:border-slate-800:hover {
+  border-color: #cbd5e1 !important;
+}
+
+.light-theme .hover\:bg-slate-850:hover,
+.light-theme .hover\:bg-slate-900\/60:hover {
+  background-color: #e2e8f0 !important;
+}
+
+/* Badge specific styling */
+.light-theme .bg-emerald-950\/40 {
+  background-color: #e8f5e9 !important;
+  border-color: #c8e6c9 !important;
+}
+.light-theme .text-emerald-400 {
+  color: #2e7d32 !important;
+}
+
+.light-theme .bg-emerald-950\/20 {
+  background-color: #e8f5e9 !important;
+  border-color: #c8e6c9 !important;
+}
+
+.light-theme .bg-emerald-500\/10 {
+  background-color: #e8f5e9 !important;
+}
+
+/* Terminal & mock console block background */
+.light-theme .bg-slate-950\/90 {
+  background-color: #f1f5f9 !important;
+}
+
+.light-theme .bg-slate-950 .text-emerald-400 {
+  color: #2563eb !important; /* light-blue for success terminal prompts */
+}
+
+.light-theme .bg-slate-950 .text-gray-300 {
+  color: #1e293b !important;
+}
+
+/* Form inputs & buttons inside contact */
+.light-theme input,
+.light-theme textarea,
+.light-theme select {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+.light-theme input:focus,
+.light-theme textarea:focus,
+.light-theme select:focus {
+  border-color: #3b82f6 !important;
+}
+
+.light-theme ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.light-theme ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+}
+
+/* HIGH QUALITY PRINTER STYLES FOR PROFESSIONAL PDF RESUME EXPORT */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 1.5cm 1.2cm 1.5cm 1.2cm;
+  }
+
+  body, html, main {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #111827 !important;
+    font-size: 11pt !important;
+    line-height: 1.5 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide interactive, animated, non-essential, or background visuals */
+  header, 
+  footer, 
+  nav, 
+  #contact, 
+  .no-print,
+  button,
+  .animate-ping,
+  .animate-pulse,
+  [class*="blur-"],
+  [class*="radial-gradient"],
+  [class*="linear-gradient"],
+  .absolute.inset-0,
+  .absolute.bottom-0,
+  .absolute.top-1\/4,
+  .absolute.bottom-1\/4,
+  /* Hide the right-side payments simulator panel & widgets */
+  .lg\:col-span-12 \.lg\:col-span-5,
+  .lg\:col-span-5, 
+  div[class*="select-none"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Force elements to behave as a single columns or standard flows */
+  .grid, .grid-cols-1, .grid-cols-2, .grid-cols-3, .grid-cols-4, .grid-cols-12, .lg\:grid-cols-12 {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  .lg\:col-span-7 {
+    width: 100% !important;
+    display: block !important;
+  }
+
+  /* Profile Card formatting */
+  #home {
+    min-height: auto !important;
+    padding-top: 1cm !important;
+    padding-bottom: 1.5cm !important;
+    background: transparent !important;
+    border-bottom: 2px solid #e5e7eb !important;
+  }
+
+  /* Centered Header for printable CV */
+  #home .lg\:col-span-7 {
+    text-align: center !important;
+    align-items: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  /* Clean typography and colors scaling */
+  h1 {
+    font-size: 28pt !important;
+    color: #111827 !important;
+    font-weight: 800 !important;
+    margin-bottom: 0.2cm !important;
+    line-height: 1.1 !important;
+  }
+
+  h2 {
+    font-size: 16pt !important;
+    color: #374151 !important;
+    margin-bottom: 0.4cm !important;
+  }
+
+  /* Section Headings */
+  section {
+    page-break-inside: auto !important;
+    padding: 1.2cm 0 0.5cm 0 !important;
+    background: transparent !important;
+    border: none !important;
+    margin: 0 !important;
+  }
+
+  /* Section Title row - beautifully formatted for CV */
+  p[class*="tracking-widest"] {
+    color: #4b5563 !important;
+    font-size: 9pt !important;
+    font-weight: 700 !important;
+    border-bottom: 1px solid #d1d5db !important;
+    padding-bottom: 0.1cm !important;
+    margin-bottom: 0.3cm !important;
+    text-align: left !important;
+  }
+
+  h2.text-3xl {
+    font-size: 18pt !important;
+    color: #111827 !important;
+    font-weight: 700 !important;
+    margin-bottom: 0.5cm !important;
+    text-align: left !important;
+  }
+
+  /* Force background details and colors to look simple and high contrast */
+  .bg-slate-900\/30, 
+  .bg-slate-900\/40, 
+  .bg-slate-900\/35,
+  .bg-slate-950,
+  .bg-slate-900 {
+    background: #f9fafb !important;
+    background-color: #f9fafb !important;
+    border: 1px solid #e5e7eb !important;
+    color: #1f2937 !important;
+    box-shadow: none !important;
+    border-radius: 8px !important;
+    padding: 15px !important;
+    margin-bottom: 15px !important;
+  }
+
+  /* Force text colors in sections to be dark ink */
+  p, span, li, h3, h4, td, th {
+    color: #1f2937 !important;
+  }
+
+  h3, h4 {
+    color: #111827 !important;
+    font-weight: 700 !important;
+  }
+
+  /* Contact details and links text color */
+  .text-gray-300, .text-gray-400, .text-slate-400 {
+    color: #4b5563 !important;
+  }
+
+  /* Timeline vertical border */
+  .border-l {
+    border-left: 2px solid #e5e7eb !important;
+    margin-left: 10px !important;
+    padding-left: 20px !important;
+  }
+
+  /* Remove circle icon spacing offsets for print */
+  .absolute.-left-\[45px\],
+  .absolute.-left-\[61px\],
+  div[class*="-left-"] {
+    display: none !important;
+  }
+
+  /* Show ALL collapsed resume details inside work history! */
+  .overflow-hidden {
+    height: auto !important;
+    max-height: none !important;
+    opacity: 1 !important;
+    display: block !important;
+  }
+
+  /* Clean lists and bullet levels */
+  li, .space-y-3 > div {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    margin-bottom: 0.2cm !important;
+  }
+
+  /* Page breaks optimization */
+  h1, h2, h3, h4, .font-display {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  .bg-slate-900\/40, 
+  .bg-slate-900\/30, 
+  .rounded-2xl,
+  .group {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+}
