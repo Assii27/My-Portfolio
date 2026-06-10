@@ -1,12 +1,12 @@
 import { Project, Skill, TimelineItem } from './types';
 
 export const PROFILE = {
-  name: "ASIF MANER",
+  name: "ASIF MAHAMMAD",
   title: "Building High-Performance CMS Archi|",
   domainSpecialty: "Handling Millions of Transactions Securely. Specialized in high-availability backend architectures.",
   tagline: "5+ Years Experience | Spring Boot | Microservices | Kafka",
   email: "dev.asifmaner@gmail.com",
-  phone: "+91 7972828315",
+  phone: "+91 8261991003",
   city: "Pune",
   location: "Pune, India",
   github: "https://github.com/asifmaner", 

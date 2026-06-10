@@ -67,7 +67,7 @@ export default function Navigation({ theme, toggleTheme }: NavigationProps) {
               <Terminal className="w-4 h-4" />
             </div>
             <span className="font-display font-bold text-lg text-white group-hover:text-brand-500 transition-colors tracking-wide">
-              ASIF MANER
+              ASIF MAHAMMAD
             </span>
           </a>
 
@@ -88,7 +88,8 @@ export default function Navigation({ theme, toggleTheme }: NavigationProps) {
           {/* Contact Fast CTA badge */}
           <div className="hidden md:flex items-center gap-4 animate-fade-in">
             <a
-              href="./file/Asif_Maner_Java_DEV5.pdf"
+              href="/file/Asif_Maner_Java_DEV5.pdf"
+              download="Asif_Maner_Java_DEV5.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 bg-brand-500/10 hover:bg-brand-500 text-brand-400 hover:text-white border border-brand-500/20 px-4 py-2.5 rounded-xl transition-all font-semibold font-mono text-xs tracking-wider cursor-pointer"
@@ -173,7 +174,8 @@ export default function Navigation({ theme, toggleTheme }: NavigationProps) {
               {/* Drawer footer info */}
               <div className="space-y-4">
                 <a
-                  href="./file/Asif_Maner_Java_DEV5.pdf"
+                  href="/file/Asif_Maner_Java_DEV5.pdf"
+                  download="Asif_Maner_Java_DEV5.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setMobileMenuOpen(false)}
