@@ -6,7 +6,7 @@ export const PROFILE = {
   domainSpecialty: "Handling Millions of Transactions Securely. Specialized in high-availability backend architectures.",
   tagline: "5+ Years Experience | Spring Boot | Microservices | Kafka",
   email: "dev.asifmaner@gmail.com",
-  phone: "+91 8483943566",
+  phone: "+91 8261991003",
   city: "Pune",
   location: "Pune, India",
   github: "https://github.com/Assii27/My-Portfolio/", 
