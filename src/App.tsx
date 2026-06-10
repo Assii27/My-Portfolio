@@ -65,14 +65,16 @@ export default function App() {
       {/* Floating Action Button for prompt Resume Export (shows on scroll) */}
       <AnimatePresence>
         {showScrollFloatingButton && (
-          <motion.button
+          <motion.a
             initial={{ opacity: 0, scale: 0.8, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 30 }}
             transition={{ type: 'spring', damping: 20, stiffness: 300 }}
-            onClick={() => window.print()}
+            href="https://raw.githubusercontent.com/Assii27/My-Portfolio/main/file/Asif_Maner_Java_DEV5.pdf?utm_source=chatgpt.com"
+            target="_blank"
+            rel="noopener noreferrer"
             className="fixed bottom-6 right-6 z-40 no-print flex items-center gap-2 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-semibold font-mono text-xs tracking-wider px-4.5 py-3.5 rounded-full shadow-2xl shadow-brand-500/30 border border-brand-400/20 hover:scale-105 active:scale-95 transition-all cursor-pointer group"
-            title="Export portfolio as a professional PDF resume"
+            title="Download PDF resume"
           >
             <Printer className="w-4 h-4 animate-pulse group-hover:scale-110 transition-transform" />
             <span>DOWNLOAD PDF RESUME</span>
@@ -80,7 +82,7 @@ export default function App() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
-          </motion.button>
+          </motion.a>
         )}
       </AnimatePresence>
     </div>

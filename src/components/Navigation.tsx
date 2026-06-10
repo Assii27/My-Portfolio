@@ -87,14 +87,16 @@ export default function Navigation({ theme, toggleTheme }: NavigationProps) {
 
           {/* Contact Fast CTA badge */}
           <div className="hidden md:flex items-center gap-4 animate-fade-in">
-            <button
-              onClick={() => window.print()}
+            <a
+              href="https://raw.githubusercontent.com/Assii27/My-Portfolio/main/file/Asif_Maner_Java_DEV5.pdf?utm_source=chatgpt.com"
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center gap-2 bg-brand-500/10 hover:bg-brand-500 text-brand-400 hover:text-white border border-brand-500/20 px-4 py-2.5 rounded-xl transition-all font-semibold font-mono text-xs tracking-wider cursor-pointer"
-              title="Print portfolio or save as a beautifully formatted PDF resume"
+              title="Download PDF Resume"
             >
               <Printer className="w-4 h-4" />
               <span>DOWNLOAD PDF</span>
-            </button>
+            </a>
             <button
               onClick={toggleTheme}
               aria-label="Toggle theme"
@@ -170,13 +172,16 @@ export default function Navigation({ theme, toggleTheme }: NavigationProps) {
 
               {/* Drawer footer info */}
               <div className="space-y-4">
-                <button
-                  onClick={() => { setMobileMenuOpen(false); window.print(); }}
+                <a
+                  href="https://raw.githubusercontent.com/Assii27/My-Portfolio/main/file/Asif_Maner_Java_DEV5.pdf?utm_source=chatgpt.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMobileMenuOpen(false)}
                   className="w-full flex items-center justify-center gap-2 bg-slate-950 hover:bg-slate-900/80 border border-slate-800 text-sm font-semibold font-mono py-3 rounded-xl transition-all text-brand-400 cursor-pointer"
                 >
                   <Printer className="w-4 h-4" />
-                  <span>Print & Export PDF</span>
-                </button>
+                  <span>Download PDF Resume</span>
+                </a>
                 <button
                   onClick={toggleTheme}
                   className="w-full flex items-center justify-center gap-2 bg-slate-950 hover:bg-slate-900/80 border border-slate-800 text-sm font-semibold font-mono py-3 rounded-xl transition-all text-brand-400 cursor-pointer"
