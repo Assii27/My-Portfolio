@@ -4,7 +4,7 @@ export const PROFILE = {
   name: "ASIF MANER",
   title: "Building High-Performance CMS Archi|",
   domainSpecialty: "Handling Millions of Transactions Securely. Specialized in high-availability backend architectures.",
-  tagline: "4+ Years Experience | Spring Boot | Microservices | Kafka",
+  tagline: "5+ Years Experience | Spring Boot | Microservices | Kafka",
   email: "dev.asifmaner@gmail.com",
   phone: "+91 7972828315",
   city: "Pune",

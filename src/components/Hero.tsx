@@ -1,31 +1,45 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion } from 'motion/react';
-import { Mail, Github, Linkedin, Download, Sparkles, RotateCw, Play, Terminal, Activity, Printer } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Linkedin, Printer, Play, Terminal, Activity } from 'lucide-react';
 import { PROFILE } from '../data';
-
-const JAVA_CODE = `@Service
-public class PaymentService {
-    @Autowired
-    private KafkaTemplate<String, AuthEvent> kafka;
-
-    @Transactional
-    public TxResponse authorize(PaymentRequest req) {
-        // Validate parameters against standard CMS Core Rules
-        if (req.getCardStatus() != CardState.ACTIVE) {
-            return TxResponse.reject("CARD_BLOCKED");
-        }
-        SwitchPayload payload = RENRouter.dispatch(req);
-        kafka.send("payments.auth.topic", new AuthEvent(payload));
-        return TxResponse.approve(payload);
-    }
-}`;
 
 export default function Hero() {
   const [typedText, setTypedText] = useState('Building High-Performance CMS Archi');
   const [showCursor, setShowCursor] = useState(true);
-  const [simState, setSimState] = useState<'idle' | 'routing' | 'success'>('idle');
-  const [simLog, setSimLog] = useState<string[]>([]);
-  const [simCounter, setSimCounter] = useState(1284792);
+  
+  // Interactive Code Execution State Machine
+  const [isRunning, setIsRunning] = useState(false);
+  const [activeStep, setActiveStep] = useState<null | 'entry' | 'log' | 'kafka'>(null);
+  const [terminalLogs, setTerminalLogs] = useState<string[]>([
+    "// Click 'RUN SWITCH SIMULATION' below to initiate test packet flow tracing."
+  ]);
+  const [txCount, setTxCount] = useState(742918);
+
+  const startSimulation = () => {
+    if (isRunning) return;
+    setIsRunning(true);
+    const mockTxId = `TX-${Math.floor(100000 + Math.random() * 900000).toString(16).toUpperCase()}`;
+    const amount = (Math.random() * 500 + 5).toFixed(2);
+    
+    setTerminalLogs([`[INCOMING] Ingress Event: RECEIVED packet {id: "${mockTxId}", amount: "$${amount}"}`]);
+    setActiveStep('entry');
+
+    setTimeout(() => {
+      setActiveStep('log');
+      setTerminalLogs(prev => [...prev, `[JVM LOG] Info - Mapping core parameters to Memory ledger...`, `[JVM LOG] Info - Tracking reference: ${mockTxId}`]);
+    }, 900);
+
+    setTimeout(() => {
+      setActiveStep('kafka');
+      setTerminalLogs(prev => [...prev, `[KAFKA] Producer published ${mockTxId} event to cluster broker 'tx-topic'`]);
+    }, 1800);
+
+    setTimeout(() => {
+      setActiveStep(null);
+      setTerminalLogs(prev => [...prev, `[STATUS] Success. Message payload resolved on-us in ${(Math.random() * 1.5 + 0.8).toFixed(2)}ms.`]);
+      setTxCount(prev => prev + 1);
+      setIsRunning(false);
+    }, 2700);
+  };
 
   // Blinking cursor effect
   useEffect(() => {
@@ -35,47 +49,8 @@ export default function Hero() {
     return () => clearInterval(cursorInterval);
   }, []);
 
-  const highlightJava = (text: string) => {
-    let html = text
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
-
-    // Comments in mute gray
-    html = html.replace(/(\/\/.*)/g, '<span class="text-slate-500 italic font-normal">$1</span>');
-
-    // Annotations in golden-yellow (#f59e0b)
-    html = html.replace(/(@\w+)/g, '<span class="text-[#f59e0b] font-medium">$1</span>');
-
-    // Keywords in high-contrast light blue (#60a5fa)
-    const keywords = ['public', 'class', 'private', 'if', 'return', 'new', 'void'];
-    keywords.forEach(kw => {
-      const regex = new RegExp(`\\b(${kw})\\b`, 'g');
-      html = html.replace(regex, '<span class="text-[#60a5fa] font-semibold">$1</span>');
-    });
-
-    // Custom types in green/teal (#34d399)
-    const customTypes = [
-      'PaymentService', 'KafkaTemplate', 'String', 'AuthEvent', 'TxResponse', 
-      'PaymentRequest', 'CardState', 'ACTIVE', 'SwitchPayload', 'RENRouter'
-    ];
-    customTypes.forEach(t => {
-      const regex = new RegExp(`\\b(${t})\\b`, 'g');
-      html = html.replace(regex, '<span class="text-[#34d399] font-medium">$1</span>');
-    });
-
-    // Strings in orange/yellow (#fb923c)
-    html = html.replace(/("[^"]*")/g, '<span class="text-[#fb923c] font-medium">$1</span>');
-
-    // Code flow operators (e.g. != represented as ≠ font-ligature style)
-    html = html.replace(/!=/g, '<span class="text-slate-400 font-semibold">≠</span>');
-
-    return <code dangerouslySetInnerHTML={{ __html: html }} />;
-  };
-
   // Text cycling typing effect
   useEffect(() => {
-    let index = 0;
     const texts = ['Building High-Performance CMS Archi', 'Engineering High-Availability Switches'];
     let textIdx = 0;
     let isDeleting = false;
@@ -101,27 +76,6 @@ export default function Hero() {
     return () => clearInterval(typingTimer);
   }, []);
 
-  const runPaymentSimulation = () => {
-    if (simState !== 'idle') return;
-    
-    setSimState('routing');
-    setSimLog([`[INFO] Decrypting PIN & Card block parameters...`]);
-    
-    setTimeout(() => {
-      setSimLog(prev => [...prev, `[SUCCESS] Authorization match found (0.004s)`]);
-    }, 400);
-
-    setTimeout(() => {
-      setSimLog(prev => [...prev, `[CMS] Syncing ledger record with Database`]);
-    }, 900);
-
-    setTimeout(() => {
-      setSimLog(prev => [...prev, `[KAFKA] Event audit broadcasted. Route Complete.`]);
-      setSimCounter(prev => prev + 1);
-      setSimState('idle');
-    }, 1500);
-  };
-
   const handleDownloadResume = () => {
     window.print();
   };
@@ -135,7 +89,7 @@ export default function Hero() {
       <div className="absolute top-1/4 right-5 w-[25rem] h-[25rem] bg-brand-500/10 rounded-full blur-[130px] pointer-events-none" />
       <div className="absolute bottom-1/4 left-5 w-[20rem] h-[20rem] bg-emerald-500/5 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center z-10 pb-16">
+      <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center z-10 pb-40 px-4 md:px-8">
         
         {/* Left Column: Profile Info & Calls to Action */}
         <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6">
@@ -171,7 +125,7 @@ export default function Hero() {
               href={PROFILE.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 bg-brand-500 hover:bg-brand-600 transition-all text-white font-semibold font-sans px-6 py-3.5 rounded-xl shadow-lg shadow-brand-500/20 cursor-pointer"
+              className="flex items-center gap-2 bg-brand-500 hover:bg-brand-600 transition-all text-white font-semibold font-sans px-6 py-3.5 rounded-xl shadow-lg shadow-brand-500/20 cursor-pointer animate-fade-in"
             >
               <Linkedin className="w-5 h-5" />
               LinkedIn
@@ -197,76 +151,112 @@ export default function Hero() {
 
         </div>
 
-        {/* Right Column: Code Service Simulation Panel with the precise screen styling */}
-        <div className="lg:col-span-5 w-full flex flex-col items-center">
-          <div className="w-full max-w-lg bg-[#0b1120] border border-slate-800/85 shadow-2xl rounded-3xl p-6 md:p-8 text-slate-300 relative select-none">
+        {/* Right Column: Code Snippet Card in Dark Mode */}
+        <div className="lg:col-span-12 xl:col-span-5 w-full flex flex-col items-center">
+          <div className="w-full max-w-lg bg-slate-900/65 backdrop-blur-md border border-slate-800/90 shadow-2xl rounded-3xl p-6 md:p-8 text-slate-350 relative select-none">
             
-            {/* Top Windows bar with dots and title row */}
-            <div className="flex items-center justify-between mb-6 pb-3 border-b border-slate-800/60">
-              {/* Traffic light dots */}
-              <div className="flex bg-transparent items-center gap-2">
+            {/* Top Windows bar with dots */}
+            <div className="flex items-center justify-between mb-6 pb-3 border-b border-slate-800/40">
+              <div className="flex items-center gap-2">
                 <span className="w-3 h-3 rounded-full bg-[#ff5f56]" />
                 <span className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
                 <span className="w-3 h-3 rounded-full bg-[#27c93f]" />
-                <span className="text-xs font-mono text-slate-400 font-semibold ml-2">PaymentService.java</span>
+                <span className="text-[11px] font-mono text-slate-500 ml-2">PaymentSwitch.java</span>
               </div>
-              
-              {/* Terminal descriptor */}
-              <div className="flex items-center gap-1.5 text-slate-500 font-mono text-xs">
-                <span>&gt;_ Live JVM Switch</span>
+              <div className="text-[10px] font-mono text-brand-500 font-semibold flex items-center gap-1.5">
+                <span className={`h-1.5 w-1.5 rounded-full ${isRunning ? 'bg-amber-400 animate-ping' : 'bg-emerald-500'}`} />
+                <span>// Spring Boot Runtime</span>
               </div>
             </div>
 
-            {/* Code presentation console block */}
-            <div className="font-mono text-[12px] md:text-[13px] leading-relaxed select-text min-h-[290px] overflow-x-auto">
-              <pre className="whitespace-pre font-mono leading-relaxed text-slate-200">
-                {highlightJava(JAVA_CODE)}
+            {/* Embedded custom high-fidelity styled syntax highlighting pre-built JSX */}
+            <div className="font-mono text-[13px] leading-relaxed select-text min-h-[220px]">
+              <pre className="whitespace-pre font-mono leading-relaxed">
+                <div>
+                  <span className="text-sky-450 font-medium">@Service</span>
+                </div>
+                <div>
+                  <span className="text-purple-400 font-semibold">public class</span>{' '}
+                  <span className="text-purple-400 font-semibold">PaymentSwitch</span>{' '}
+                  <span className="text-slate-400">{"{"}</span>
+                </div>
+                
+                <div className="pl-4">
+                  <span className="text-sky-450 font-medium">@Autowired</span>
+                </div>
+                <div className="pl-4">
+                  <span className="text-purple-400 font-semibold">private</span>{' '}
+                  <span className="text-purple-400 font-semibold">KafkaTemplate</span>{' '}
+                  <span className="text-slate-300">kafka;</span>
+                </div>
+                
+                <div className="h-4" />
+                
+                <div className={`transition-all duration-300 py-0.5 px-2 rounded ${activeStep === 'entry' ? 'bg-brand-500/10 border-l-2 border-brand-500' : 'border-l-2 border-transparent'}`}>
+                  <span className="pl-2 text-purple-450 font-semibold">public void</span>{' '}
+                  <span className="text-slate-200">process</span>
+                  <span className="text-slate-400">(</span>
+                  <span className="text-purple-450 font-semibold">Transaction</span>{' '}
+                  <span className="text-slate-200">tx</span>
+                  <span className="text-slate-400">) {"{"}</span>
+                </div>
+                
+                <div className={`transition-all duration-300 py-0.5 px-2 rounded ${activeStep === 'log' ? 'bg-amber-500/10 border-l-2 border-amber-400' : 'border-l-2 border-transparent'}`}>
+                  <span className="pl-6 text-emerald-450">log.info("Processing: " + tx.id());</span>
+                </div>
+                
+                <div className={`transition-all duration-300 py-0.5 px-2 rounded ${activeStep === 'kafka' ? 'bg-purple-500/10 border-l-2 border-purple-400' : 'border-l-2 border-transparent'}`}>
+                  <span className="pl-6 text-emerald-450">kafka.send("tx-topic", tx);</span>
+                </div>
+                
+                <div className="pl-4">
+                  <span className="text-slate-400">{"}"}</span>
+                </div>
+                <div>
+                  <span className="text-slate-400">{"}"}</span>
+                </div>
               </pre>
             </div>
 
-            {/* Micro-simulator panel integrated seamlessly in the card */}
-            <div className="mt-6 pt-5 border-t border-slate-800 flex flex-col gap-3">
-              <div className="flex items-center justify-between">
+            {/* Integrated Live Runner Panel */}
+            <div className="mt-6 pt-5 border-t border-slate-800/60 flex flex-col gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="flex items-center gap-2">
-                  <Activity className={`w-4 h-4 ${simState !== 'idle' ? 'text-brand-500 animate-pulse' : 'text-slate-500'}`} />
-                  <span className="text-xs font-mono text-slate-400">
-                    Switch Live Stream: <strong className="text-brand-400 font-sans">{simCounter.toLocaleString()} tx</strong>
+                  <Activity className={`w-4 h-4 shrink-0 ${isRunning ? 'text-brand-500 animate-pulse' : 'text-slate-500'}`} />
+                  <span className="text-[11px] font-mono text-slate-400">
+                    Processed Stream: <strong className="text-brand-400 font-sans">{txCount.toLocaleString()} tx</strong>
                   </span>
                 </div>
-
-                <button 
-                  onClick={runPaymentSimulation}
-                  disabled={simState !== 'idle'}
-                  className={`flex items-center gap-1.5 px-3.5 py-2 text-xs rounded-xl font-mono font-bold transition-all border ${
-                    simState === 'idle' 
-                      ? 'bg-[#132237] border-blue-500/20 text-[#38bdf8] hover:bg-[#1e293b] cursor-pointer' 
-                      : 'bg-[#0f172a] text-slate-650 border-slate-800 cursor-not-allowed text-slate-600'
+                
+                <button
+                  onClick={startSimulation}
+                  disabled={isRunning}
+                  className={`flex items-center gap-1.5 px-3.5 py-2 text-[11px] font-mono font-bold rounded-xl border transition-all cursor-pointer ${
+                    isRunning
+                      ? 'bg-slate-950 border-slate-900 text-slate-550 cursor-not-allowed'
+                      : 'bg-brand-500 text-white border-brand-400 hover:bg-brand-600 shadow-md shadow-brand-500/20'
                   }`}
                 >
-                  <Play className="w-3.5 h-3.5 fill-current" />
-                  TEST FLOW
+                  <Play className="w-3 h-3 fill-current" />
+                  <span>{isRunning ? 'EXECUTING...' : 'RUN SWITCH SIMULATION'}</span>
                 </button>
               </div>
 
-              {/* Simulation feedback terminal console */}
-              <div className="bg-[#030712] border border-slate-900/80 p-3 rounded-2xl h-24 overflow-y-auto flex flex-col justify-end font-mono text-xs text-slate-400">
-                {simLog.length === 0 ? (
-                  <span className="text-slate-500 italic">
-                    // Click 'TEST FLOW' above to trigger simulated JVM Switch authorization cycles and broadcast to Kafka cluster.
-                  </span>
-                ) : (
-                  simLog.map((log, index) => {
-                    let color = 'text-slate-400';
-                    if (log.includes('[SUCCESS]')) color = 'text-emerald-400 font-semibold';
-                    if (log.includes('[CMS]')) color = 'text-amber-400';
-                    if (log.includes('[KAFKA]')) color = 'text-sky-400';
-                    return (
-                      <div key={index} className={`py-0.5 leading-normal ${color}`}>
-                        {log}
-                      </div>
-                    );
-                  })
-                )}
+              {/* Terminal Screen inside the card */}
+              <div className="bg-slate-950/90 border border-slate-850/80 p-3.5 rounded-2xl min-h-[105px] max-h-[140px] overflow-y-auto font-mono text-[11px] flex flex-col justify-end gap-1.5 select-text">
+                {terminalLogs.map((log, i) => {
+                  let color = 'text-slate-400';
+                  if (log.startsWith('[INCOMING]')) color = 'text-blue-400';
+                  if (log.startsWith('[JVM LOG]')) color = 'text-amber-400/90';
+                  if (log.startsWith('[KAFKA]')) color = 'text-purple-400';
+                  if (log.startsWith('[STATUS]')) color = 'text-emerald-400 font-semibold';
+                  return (
+                    <div key={i} className="flex items-start gap-1">
+                      <span className="text-slate-700 font-bold select-none shrink-0">&gt;</span>
+                      <span className={color}>{log}</span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
