@@ -1,0 +1,113 @@
+name: Build and Deploy Portfolio
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+permissions:
+  contents: write
+
+jobs:
+  verify-and-build:
+    name: Verify, Lint & Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
+
+      - name: Lint Codebase
+        run: npm run lint
+
+      - name: Compile & Build Static Assets
+        run: npm run build
+
+      - name: Upload Production Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-assets
+          path: dist
+          retention-days: 2
+
+  deploy-static-pages:
+    name: Deploy to GitHub Pages
+    needs: verify-and-build
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Download Production Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: production-assets
+          path: dist
+
+      - name: Push to gh-pages Branch 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
+          branch: gh-pages
+          clean: true
+
+# ==============================================================================
+# ALTERNATIVE DEPLOYMENT CONFIGURATIONS (Vercel, Netlify, Cloud Run)
+# If you prefer to deploy to other platforms, replace the deploy job above.
+#
+# --- DEPLOY TO VERCEL ---
+# deploy-vercel:
+#   needs: verify-and-build
+#   runs-on: ubuntu-latest
+#   steps:
+#     - name: Checkout Repository
+#       uses: actions/checkout@v4
+#     - name: Deploy to Vercel
+#       uses: amondnet/vercel-action@v20
+#       with:
+#         vercel-token: ${{ secrets.VERCEL_TOKEN }}
+#         vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+#         vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+#         working-directory: ./
+#         vercel-args: '--prod'
+#
+# --- DEPLOY TO NETLIFY ---
+# deploy-netlify:
+#   needs: verify-and-build
+#   runs-on: ubuntu-latest
+#   steps:
+#     - name: Download Production Artifact
+#       uses: actions/download-artifact@v4
+#       with:
+#         name: production-assets
+#         path: dist
+#     - name: Deploy to Netlify
+#       uses: nwtgck/actions-netlify@v2.0
+#       with:
+#         publish-dir: './dist'
+#         production-deploy: true
+#       env:
+#         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+#         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+# ==============================================================================
