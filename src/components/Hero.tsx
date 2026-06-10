@@ -128,7 +128,7 @@ export default function Hero() {
             </a>
 
             <a 
-              href="https://raw.githubusercontent.com/Assii27/My-Portfolio/main/file/Asif_Maner_Java_DEV5.pdf?utm_source=chatgpt.com"
+              href="./file/Asif_Maner_Java_DEV5.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 bg-slate-900 border border-slate-800 hover:border-slate-700 hover:bg-slate-850 transition-all text-gray-300 hover:text-white font-semibold font-sans px-6 py-3.5 rounded-xl cursor-pointer"

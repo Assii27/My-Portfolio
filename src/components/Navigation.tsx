@@ -88,7 +88,7 @@ export default function Navigation({ theme, toggleTheme }: NavigationProps) {
           {/* Contact Fast CTA badge */}
           <div className="hidden md:flex items-center gap-4 animate-fade-in">
             <a
-              href="https://raw.githubusercontent.com/Assii27/My-Portfolio/main/file/Asif_Maner_Java_DEV5.pdf?utm_source=chatgpt.com"
+              href="./file/Asif_Maner_Java_DEV5.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 bg-brand-500/10 hover:bg-brand-500 text-brand-400 hover:text-white border border-brand-500/20 px-4 py-2.5 rounded-xl transition-all font-semibold font-mono text-xs tracking-wider cursor-pointer"
@@ -173,7 +173,7 @@ export default function Navigation({ theme, toggleTheme }: NavigationProps) {
               {/* Drawer footer info */}
               <div className="space-y-4">
                 <a
-                  href="https://raw.githubusercontent.com/Assii27/My-Portfolio/main/file/Asif_Maner_Java_DEV5.pdf?utm_source=chatgpt.com"
+                  href="./file/Asif_Maner_Java_DEV5.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setMobileMenuOpen(false)}
