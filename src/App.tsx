@@ -70,8 +70,8 @@ export default function App() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 30 }}
             transition={{ type: 'spring', damping: 20, stiffness: 300 }}
-            href="/file/Asif_Maner_Java_DEV5.pdf"
-            download="Asif_Maner_Java_DEV5.pdf"
+            href="https://github.com/Assii27/My-Portfolio/raw/main/file/Asif_Mahammad_CV.pdf"
+            download="Asif_Mahammad_CV.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="fixed bottom-6 right-6 z-40 no-print flex items-center gap-2 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-semibold font-mono text-xs tracking-wider px-4.5 py-3.5 rounded-full shadow-2xl shadow-brand-500/30 border border-brand-400/20 hover:scale-105 active:scale-95 transition-all cursor-pointer group"
